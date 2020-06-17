@@ -1,18 +1,18 @@
-import React from "react";
-import "./App.css";
+import './App.css';
 
-import HomePage from "./pages/homepage/homepage.component";
-import { Route, Switch, Redirect } from "react-router-dom";
-import ShopPage from "./pages/shop/shop.component";
-import Header from "./components/header/header.component";
-import SignInAndSignOutPage from "./pages/sign-in-and-sign-out/sign-in-and-sign-out.component";
-import { auth, createUserProfileDocument } from "./firebase/firebase.util";
-import { connect } from "react-redux";
+import React from 'react';
+import { connect } from 'react-redux';
+import { Redirect, Route, Switch } from 'react-router-dom';
+import { createStructuredSelector } from 'reselect';
 
-import { selectCurrentUser } from "./redux/user/user.selector";
-import { createStructuredSelector } from "reselect";
-
-import { setCurrentUser } from "./redux/user/user.actions";
+import Header from './components/header/header.component';
+import { auth, createUserProfileDocument } from './firebase/firebase.util';
+import HomePage from './pages/homepage/homepage.component';
+import ShopPage from './pages/shop/shop.component';
+import SignInAndSignOutPage from './pages/sign-in-and-sign-out/sign-in-and-sign-out.component';
+import CheckoutPage from './pages/checkout/checkout.component';
+import { setCurrentUser } from './redux/user/user.actions';
+import { selectCurrentUser } from './redux/user/user.selector';
 
 class App extends React.Component {
   unsubscribeFromAuth = null;
@@ -57,6 +57,7 @@ class App extends React.Component {
               )
             }
           />
+          <Route exact path='/checkout' component={CheckoutPage} />
         </Switch>
       </div>
     );
