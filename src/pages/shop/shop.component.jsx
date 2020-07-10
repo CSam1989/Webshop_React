@@ -29,25 +29,49 @@ class ShopPage extends React.Component {
     const collectionRef = firestore.collection("collections");
     const { updateCollections } = this.props;
 
-    this.unsubscribeFromSnapshot = collectionRef.onSnapshot(
-      async (snapshot) => {
-        const collectionsMap = convertCollectionsSnapshotToMap(snapshot);
-        updateCollections(collectionsMap);
-        this.setState({ loading: false });
-      }
-    );
+    // fetch(
+    //   "  https://firestore.googleapis.com/v1/projects/webshop-react-50e84/databases/(default)/documents/collections"
+    // )
+    //   .then((response) => response.json())
+    //   .then((collection) => console.log(collection));
+    //! OR
+    collectionRef.get().then((snapshot) => {
+      const collectionsMap = convertCollectionsSnapshotToMap(snapshot);
+      updateCollections(collectionsMap);
+      this.setState({ loading: false });
+    });
+    //! OR
+    // this.unsubscribeFromSnapshot = collectionRef.onSnapshot(
+    //   async (snapshot) => {
+    //     const collectionsMap = convertCollectionsSnapshotToMap(snapshot);
+    //     updateCollections(collectionsMap);
+    //     this.setState({ loading: false });
+    //   }
+    // );
+  }
+
+  componentWillUnmount() {
+    this.unsubscribeFromSnapshot();
   }
 
   render() {
     const { match } = this.props;
-    const {loading} = this.state;
+    const { loading } = this.state;
 
     return (
       <div className="shop-page">
-        <Route exact path={`${match.path}`} render={(props) => <CollectionOverviewWithSpinner isLoading={loading} {...props} /> } />
+        <Route
+          exact
+          path={`${match.path}`}
+          render={(props) => (
+            <CollectionOverviewWithSpinner isLoading={loading} {...props} />
+          )}
+        />
         <Route
           path={`${match.path}/:collectionId`}
-          render={(props) => <CollectionPageWithSpinner isLoading={loading} {...props} /> }
+          render={(props) => (
+            <CollectionPageWithSpinner isLoading={loading} {...props} />
+          )}
         />
       </div>
     );
