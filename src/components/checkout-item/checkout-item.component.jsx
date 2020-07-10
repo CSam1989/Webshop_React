@@ -1,5 +1,3 @@
-import "./checkout-item.styles.scss";
-
 import React from "react";
 import { connect } from "react-redux";
 
